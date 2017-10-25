@@ -1,0 +1,83 @@
+<section class="container">
+    <div class="columns is-marginless">
+        <div class="column is-one-quarter-tablet menu-column">
+            <aside class="menu">
+                <p class="menu-label">
+                    Categories
+                </p>
+                <ul class="menu-list">
+                    <li><a>All Products</a></li>
+                    <li>
+                        <ul class="is-paddingless">
+                            <li *ngFor="let category of categories">
+                                <a>
+                                    <label class="checkbox">
+                                        <input type="checkbox" (click)="filter(category.toLowerCase(), $event)">
+                                    {{category}}
+                                    </label>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column">
+            <div class="columns is-marginless">
+                <div class="column is-12">
+                    <nav class="breadcrumb is-small" aria-label="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Bulma</a></li>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Components</a></li>
+                            <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="columns is-marginless is-multiline">
+                <div class="column is-one-third-desktop is-half-tablet item" *ngFor="let item of items">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4x4">
+                                <img src="http://via.placeholder.com/200x200" alt="Placeholder image">
+                            </figure>
+                            <div class="bid-info box is-primary">
+                                <p class="heading is-size-6 has-text-centered">
+                                    <strong *ngIf="!item?.curr_val">Place The First Bid</strong>
+                                    <strong *ngIf="item?.curr_val">Current Bid: <i class="fa fa-inr" aria-hidden="true"></i>{{item?.curr_val}}</strong>
+                                </p>
+                                <p class="has-text-centered">
+                                    <a class="button is-success">
+                                        <span class="icon">
+                                                        <i class="fa fa-gavel" aria-hidden="true"></i>
+                                                    </span>
+                                        <span>Bid</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content" (click)="showProduct(item)">
+                                    <p class="title is-5" [innerHTML]="item?.name"></p>
+                                    <p class="subtitle is-6" [innerHTML]="'Category: '+item?.category"></p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <strong class="is-size-7"><span>Base Value: <i class="fa fa-inr" aria-hidden="true"></i>
+                                </span>{{item?.base_price}}</strong>
+                                <br>
+                                <strong class="is-size-7"><span>Min Increment: <i class="fa fa-inr" aria-hidden="true"></i>
+                                </span>{{item?.increment}}</strong>
+                                <br>
+                                <p class="is-size-7" [innerHTML]="'Posted: '+(item?.createdAt | date)"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

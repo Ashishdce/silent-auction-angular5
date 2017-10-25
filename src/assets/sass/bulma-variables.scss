@@ -1,13 +1,18 @@
 @import "./app-variables.scss";
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
-
 // All overrides go here
 // http://bulma.io/documentation/overview/variables/
-
 $red: $app-red;
 $danger: $red;
-
 $menu-item-color: #ffffff;
 $menu-label-color: #ffffff;
 $menu-item-radius: 0;
+// $tabs-border-bottom-color: $primary-color-dark;
+// $tabs-link-color: #ffa000;
+// $control-radius: 50%;
+//buttons
+$button-background-color: $primary-color;
+$button-color: $primary-color-text;
+$button-hover-color: $primary-color-text;
+$button-hover-border-color: $primary-color-dark;

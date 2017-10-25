@@ -1,0 +1,12 @@
+.section {
+    padding: 1.5rem !important;
+}
+
+@media screen and (max-width: 767px) {
+    .section {
+        padding: 0 !important;
+        .box {
+            border-radius: 0 !important;
+        }
+    }
+}

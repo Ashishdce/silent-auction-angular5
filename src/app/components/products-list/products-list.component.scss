@@ -1,0 +1,21 @@
+.menu-column {
+    background: #00d1b2;
+    max-width: 230px;
+}
+
+.item {
+    .card-image {
+        position: relative;
+        .bid-info {
+            position: absolute;
+            top: 100%;
+            width: 80%;
+            left: 50%;
+            transform: translate(-50%, -110%);
+        }
+    }
+}
+
+.media-content {
+    cursor: pointer;
+}

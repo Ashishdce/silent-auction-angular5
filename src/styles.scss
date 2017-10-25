@@ -1,72 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "./assets/sass/app-variables.scss";
 @import "./assets/sass/bulma-variables.scss";
 @import "./assets/sass/bulma-custom.scss";
-
-
-.is-subtitle{
-  border-bottom: 1px solid #CCCCCC;
-
-  .column.is-narrow{
-    .button{
-      display: block;
-      width: 100%;
-    }
-     @media screen and (min-width: $tablet) {
-      padding-right: 0;
-      .button {
-        display: inline-block;
-        width: auto;
-      }
-    }
-  }
-}
-
-.box.is-offering{
-  h5 {
-    color: $app-red;
-  }
-  .level.is-top-bid{
-    .heading,
-    .title{
-      color: $blue;
-      margin-bottom: 0;
-    }
-  }
-  .level.is-place-bid{
-    .heading{
-      margin-bottom: 0;
-    }
-    .button{
-      margin-bottom: 10px;
-    }
-  }
-  &.is-offering-row{
-    .heading {
-      display: none;
-    }
-    .level.is-place-bid{
-      .heading{
-        display: block;
-      }
-    }
-    @media screen and (min-width: $tablet) {
-      .heading {
-        display: block;
-      }
-      .level.is-place-bid{
-        .heading{
-          display: none;
-        }
-      }
-      .level.is-place-bid{
-        .button{
-          margin-bottom: 0;
-        }
-      }
-      .level:not(:last-child){
-        margin-bottom: 0.5rem;
-      }
-    }
-  }
-}
+// html {
+//     background: url('./assets/images/silent-auction-login.png') no-repeat center center fixed;
+//     -webkit-background-size: cover;
+//     -moz-background-size: cover;
+//     -o-background-size: cover;
+//     background-size: cover;
+// }

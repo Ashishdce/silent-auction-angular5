@@ -1,78 +1,19 @@
-<section class="section">
-  <p>Title with button</p>
-  <!-- Title with button -->
-  <div class="columns is-multiline is-subtitle">
-    <div class="column">
-      <h2 class="subtitle">Cupidatat sit quis enim nisi pariatur irure.</h2>
-    </div>
-    <div class="column is-narrow">
-      <a class="button is-danger">Test Btn</a>
-    </div>
-  </div>
-
-  <p>Card component column</p>
-  <div class="columns is-multiline">
-    <div class="column is-4-tablet is-3-desktop">
-      <!-- Card -->
-      <div class="box is-offering">
-        <h5 class="subtitle is-size-5">Pariatur elit laboris qui aute do Lorem id cillum consequat deserunt.</h5>
-        <p>
-          <span>Laboris minim officia ea minim excepteur ullamco sit. Sint dolore labore ut fugiat sunt...</span>
-          <br>
-          <small><i>Offered by: John Doe</i></small>
-        </p>
-        <br>
-        <div class="level is-mobile is-top-bid">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Current top bid</p>
-                <p class="title is-size-1">3,456</p>
-              </div>
-            </div>
+<app-header [flag]="true" [data]="userInfo"></app-header>
+<section class="hero is-small is-primary">
+    <div class="hero-body">
+        <div class="container">
+            <p class="title">Welcome to Silent Auction</p>
         </div>
-        <div class="level is-mobile is-place-bid">
-            <div class="level-item has-text-centered">
-              <div>
-                <a class="button is-danger">Place your bid</a>
-                <p class="heading">326 Bids</p>
-              </div>
-            </div>
-        </div>
-      </div>
     </div>
-  </div>
-
-  <p>Card component row</p>
-  <!-- Card -->
-  <div class="box is-offering is-offering-row">
-    <div class="columns">
-      <div class="column">
-        <h5 class="subtitle is-size-5">Pariatur elit laboris qui aute do Lorem id cillum consequat deserunt.</h5>
-        <p>
-          <span>Laboris minim officia ea minim excepteur ullamco sit. Sint dolore labore ut fugiat sunt...</span>
-          <br>
-          <small><i>Offered by: John Doe</i></small>
-        </p>
-        <p class="heading">326 Bids</p>
-      </div>
-      <div class="column is-narrow">
-        <div class="level is-mobile is-top-bid">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Current top bid</p>
-                <p class="title is-size-1">3,456</p>
-              </div>
-            </div>
-        </div>
-        <div class="level is-mobile is-place-bid">
-            <div class="level-item has-text-centered">
-              <div>
-                <a class="button is-danger">Place your bid</a>
-                <p class="heading">326 Bids</p>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
+<nav class="navbar has-shadow">
+    <div class="container">
+        <div class="navbar-tabs">
+            <a class="navbar-item is-tab" routerLink="category" routerLinkActive="is-active">Products</a>
+            <a class="navbar-item is-tab" routerLink="my_offers" routerLinkActive="is-active">Your Offers</a>
+            <a class="navbar-item is-tab" routerLink="add_product" routerLinkActive="is-active">Post An Offer</a>
+        </div>
+    </div>
+</nav>
+<router-outlet></router-outlet>
+<app-footer></app-footer>

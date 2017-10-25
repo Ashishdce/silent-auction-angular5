@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
+    path: 'welcome',
+    loadChildren: 'app/pages/landing/landing.module#LandingModule'
+  },
+  {
     path: 'home',
     loadChildren: 'app/pages/home/home.module#HomeModule'
   },
@@ -13,12 +17,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/welcome/overview',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '/not-found',
+    redirectTo: '/welcome/overview',
     pathMatch: 'full'
   }
 ];

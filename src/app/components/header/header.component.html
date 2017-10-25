@@ -1,0 +1,76 @@
+<div class="container">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a class="navbar-item" (click)="navigate('overview')">
+                <img src="../../../assets/images/logo.png" alt="Silent Auction Logo" height="83px">
+            </a>
+            <div class="navbar-burger burger is-hidden-desktop">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <div class="navbar-item navigation-item">
+                    <a class="navbar-link is-active" (click)="navigate('overview')">
+                      Overview
+                    </a>
+                </div>
+                <div class="navbar-item navigation-item">
+                    <a class="navbar-link is-active" (click)="navigate('demo')">
+                        Demo Auction
+                      </a>
+                </div>
+                <div class="navbar-item navigation-item">
+                    <a class="navbar-link" (click)="navigate('help')">
+                        Help
+                      </a>
+                </div>
+                <div class="navbar-item" *ngIf="!flag">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="bd-tw-button button" (click)="navigate('login')">
+                                <span class="icon">
+                              <i class="fa fa-sign-in" aria-hidden="true"></i>                              
+                            </span>
+                                <span>Login</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button is-primary" (click)="navigate('signup')">
+                                <span class="icon">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                  </span>
+                                <span>Sign Up</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="navbar-item  has-dropdown is-hoverable" *ngIf="flag">
+                    <a class="navbar-link">
+                        <span [innerHTML]="data?.displayName ? 'Hi, ' + data?.displayName : 'Hi, User'"></span>
+                        <div class="image-wrapper">
+                            <figure class="image is-32x32">
+                                <img [src]="data?.photoURL ? data?.photoURL : '../../../assets/images/user.png'">
+                            </figure>
+                        </div>
+                    </a>
+                    <div class="navbar-dropdown is-boxed">
+                        <a class="navbar-item " (click)="signOut()">
+                          Sign Out
+                        </a>
+                        <hr class="navbar-divider">
+                        <div class="navbar-item">
+                            <div>
+                                <p class="is-size-6-desktop">
+                                    <strong>Silent Auction 2017</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

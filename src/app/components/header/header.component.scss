@@ -1,0 +1,20 @@
+.navbar-end {
+    .navbar-item:not(:last-child) {
+        .navbar-link {
+            padding-right: 1rem;
+            &::after {
+                display: none;
+            }
+        }
+    }
+}
+
+.navigation-item {
+    padding: 0 !important;
+}
+
+.image-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-left: 10px;
+}
