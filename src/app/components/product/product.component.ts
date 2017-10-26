@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ProductComponent implements OnInit, OnDestroy {
   currentProductId;
-  productData = {};
+  productData;
   dataSubscription;
   currentUid;
   isAuthor = false;
@@ -17,6 +17,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   showMessage = false;
   isError = false;
   message;
+  adminUsers;
+  isAdmin = false;
   constructor(
     private fService: FirestoreService,
     private router: Router,
@@ -26,7 +28,18 @@ export class ProductComponent implements OnInit, OnDestroy {
     private commonService: CommonService
   ) {
     this.currentProductId = this.route.snapshot.params.id;
-    this.currentUid = this.auth.currentUser.uid;
+    this.adminUsers  = this.auth.getAdmins();
+    // this.currentUid = this.auth.currentUser.uid;
+    this.auth.currentUser$.subscribe(data => {
+      if (data) {
+        if (this.adminUsers.indexOf(data['uid']) > -1) {
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        }
+        this.currentUid = data['uid'];
+      }
+    });
   }
 
   ngOnInit() {
@@ -47,17 +60,17 @@ export class ProductComponent implements OnInit, OnDestroy {
   deleteOffer() {
     this.fService.deleteDocument(this.currentProductId);
   }
-  updateDocument(value) {
-    this.fService.updateDocument(this.currentProductId, value);
+  updateDocument(key, value) {
+    this.fService.updateDocument(this.currentProductId, key, value);
   }
   bidNow(value?) {
     this.showMessage = false;
     if (this.isBidding) {
       this.isBidding = false;
       if (this.productData['curr_val'] && value - this.productData['curr_val'] >= this.productData['increment']) {
-        this.updateDocument(value);
+        this.updateDocument('curr_val', [value, this.productData['bid_count']]);
       } else if (!this.productData['curr_val'] && value > this.productData['base_price']) {
-        this.updateDocument(value);
+        this.updateDocument('curr_val', [value, this.productData['bid_count']]);
       } else {
         this.handleMessage({'message': `Please check the value you have entered.
          Either the value is smaller than base price, or
@@ -66,6 +79,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.isBidding = true;
     }
+  }
+  approve() {
+    this.updateDocument('status', 'approved');
   }
   handleMessage(err, errorFlag) {
     this.commonService.setLoader(false);

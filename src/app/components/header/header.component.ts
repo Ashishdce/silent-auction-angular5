@@ -9,8 +9,9 @@ import { AuthService } from '../../services';
 export class HeaderComponent implements OnInit {
   @Input('flag') flag;
   @Input('data') data?;
-  constructor(private router: Router, private auth: AuthService) { }
-
+  adminUsers;
+  showAdminButton = false;
+  constructor(private router: Router, private auth: AuthService) {}
   ngOnInit() {
   }
 

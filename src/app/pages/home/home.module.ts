@@ -6,6 +6,7 @@ import { ComponentsModule } from '../../components/components.module';
 import { FormComponent } from '../../components/form/form.component';
 import { ProductsListComponent } from '../../components/products-list/products-list.component';
 import { ProductComponent } from '../../components/product/product.component';
+// import { AdminComponent } from '../../components/admin/admin.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +26,10 @@ import { ProductComponent } from '../../components/product/product.component';
           },
           {
             path: 'category',
+            component: ProductsListComponent,
+          },
+          {
+            path: 'admin',
             component: ProductsListComponent,
           },
           {

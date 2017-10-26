@@ -1,14 +1,19 @@
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { CommonService } from '../common/common.service';
 @Injectable()
-export class AuthService implements OnInit, OnDestroy {
+export class AuthService implements OnDestroy {
   stateChangeSubs;
+
+  /****************ADMIN USERS*******************************/
+  private adminUsers = ['OEhVODxNK7dTmEItHv6yDZWfHcu1'];
+  /********************************************************** */
+
   // public $userInfo = new Subject<Object>();
   private $authState: Observable<firebase.User>;
   currentUser: firebase.User = null;
@@ -31,7 +36,10 @@ export class AuthService implements OnInit, OnDestroy {
   getAuthState() {
     return this.$authState;
   }
-  ngOnInit () { }
+
+  getAdmins() {
+    return this.adminUsers;
+  }
 
   login(type: boolean, email?, password?) {
     if (type && email && password) {

@@ -9,5 +9,4 @@ export class CommonService {
   setLoader(val: boolean) {
     this.$loader.next(val);
   }
-
 }

@@ -8,17 +8,17 @@
                     </span>
                     <span>Back</span>
                 </a>
-                <a class="button is-inverted is-primary" *ngIf="isAuthor" (click)="editOffer()">
+                <a class="button is-inverted is-primary" *ngIf="isAuthor || isAdmin" (click)="editOffer()">
                     <span class="icon">
                             <i class="fa fa-pencil" aria-hidden="true"></i>                    
                         </span>
-                    <span>Edit Offer</span>
+                    <span>Edit</span>
                 </a>
-                <a class="button is-inverted is-danger" *ngIf="isAuthor" (click)="deleteOffer()">
+                <a class="button is-inverted is-danger" *ngIf="isAuthor || isAdmin" (click)="deleteOffer()">
                     <span class="icon">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </span>
-                    <span>Delete Offer</span>
+                    <span>Delete</span>
                 </a>
             </div>
         </div>
@@ -43,7 +43,7 @@
                         <br>
                         <p class="is-size-7" [innerHTML]="'Posted: '+(productData?.createdAt | date)"></p>
                     </div>
-                    <div class="bid-section" *ngIf="!isAuthor">
+                    <div class="bid-section" *ngIf="!isAuthor && productData.status === 'approved'">
                         <div class="columns is-marginless is-vcentered is-centered">
                             <div class="column is-6">
                                 <p class="heading is-size-5 has-text-centered">
@@ -99,7 +99,18 @@
                             </div>
                         </div>
                     </div>
-
+                    <div *ngIf="isAdmin && productData.status === 'pending'">
+                        <div class="columns is-marginless is-vcentered is-centered">
+                            <div class="column is-6">
+                                <a class="button is-danger is-large bid-button" (click)="approve()">
+                                    <span class="icon">
+                                        <i class="fa fa-exclamation" aria-hidden="true"></i>
+                                    </span>
+                                    <span>APPROVE</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

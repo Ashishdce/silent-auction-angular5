@@ -10,13 +10,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   userInfo = {};
   userInfoSubscription;
+  adminUsers;
+  showAdminButton = false;
   constructor(private service: AuthService, private cdr: ChangeDetectorRef, private router: Router) {
-    this.userInfoSubscription = this.service.getAuthState().subscribe(user => {
+    this.adminUsers  = this.service.getAdmins();
+    this.userInfoSubscription = this.service.currentUser$.subscribe(user => {
       if (user) {
         this.userInfo = user;
         console.log(this.userInfo);
+        if (this.adminUsers.indexOf(this.userInfo['uid']) > -1) {
+          this.showAdminButton = true;
+        } else {
+          this.showAdminButton = false;
+        }
       } else {
         this.userInfo = {};
+        this.showAdminButton = false;
       }
     });
    }

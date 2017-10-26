@@ -6,15 +6,12 @@
                     Categories
                 </p>
                 <ul class="menu-list">
-                    <li><a>All Products</a></li>
+                    <li><a (click)="navigate()">All Products</a></li>
                     <li>
                         <ul class="is-paddingless">
                             <li *ngFor="let category of categories">
-                                <a>
-                                    <label class="checkbox">
-                                        <input type="checkbox" (click)="filter(category.toLowerCase(), $event)">
+                                <a (click)="navigate(category.toLowerCase())">
                                     {{category}}
-                                    </label>
                                 </a>
                             </li>
                         </ul>
@@ -23,19 +20,60 @@
             </aside>
         </div>
         <div class="column">
-            <div class="columns is-marginless">
-                <div class="column is-12">
+            <div class="columns is-marginless is-mobile">
+                <div class="column is-half-tablet">
                     <nav class="breadcrumb is-small" aria-label="breadcrumbs">
                         <ul>
-                            <li><a href="#">Bulma</a></li>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Components</a></li>
-                            <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+                            <li *ngFor="let route of routeSegments; let i=index" [ngClass]="{'is-active': i === routeSegments.length - 1}">
+                                <a (click)="navigateToUrl(route)">{{ route.toUpperCase() }}</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
+                <div class="column is-half-tablet">
+                    <div class="select sort-dropdown">
+                        <select (change)="sort(select.value)" #select>
+                            <option *ngFor="let s of sortOptions">{{s.name}}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="columns is-marginless is-multiline">
+            <div class="column is-12" *ngIf="isAdmin">
+                <div class="tabs is-boxed">
+                    <ul>
+                        <li [ngClass]="{'is-active': isPending}">
+                            <a (click)="show('pending')">
+                                <span class="icon is-small"><i class="fa fa-spinner" aria-hidden="true"></i></span>
+                                <span>Pending</span>
+                            </a>
+                        </li>
+                        <li [ngClass]="{'is-active': !isPending}">
+                            <a (click)="show('approved')">
+                                <span class="icon is-small"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                </span>
+                                <span>Approved</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="columns is-marginless" *ngIf="!items.length">
+                <div class="column is-12">
+                    <div class="box">
+                        <div class="section">
+                            <p class="has-text-centered">
+                                <span class="icon">
+                                    <i class="fa fa-4x fa-exclamation-circle" aria-hidden="true"></i>                            
+                                </span>
+                            </p>
+                            <p class="heading is-size-6 has-text-centered">
+                                Nothing To Display
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-marginless is-multiline" *ngIf="items.length">
                 <div class="column is-one-third-desktop is-half-tablet item" *ngFor="let item of items">
                     <div class="card">
                         <div class="card-image">
@@ -43,16 +81,28 @@
                                 <img src="http://via.placeholder.com/200x200" alt="Placeholder image">
                             </figure>
                             <div class="bid-info box is-primary">
-                                <p class="heading is-size-6 has-text-centered">
-                                    <strong *ngIf="!item?.curr_val">Place The First Bid</strong>
+                                <p class="heading is-size-6 has-text-centered" *ngIf="item.status === 'pending'">
+                                    <strong class="pending-status">Pending Approval</strong>
+                                </p>
+                                <p class="heading is-size-6 has-text-centered" *ngIf="item.status === 'approved'">
+                                    <strong *ngIf="!item?.curr_val && item.author_uid === currentUid">Waiting For The First Bid</strong>
+                                    <strong *ngIf="!item?.curr_val && item.author_uid !== currentUid">Place The First Bid</strong>
                                     <strong *ngIf="item?.curr_val">Current Bid: <i class="fa fa-inr" aria-hidden="true"></i>{{item?.curr_val}}</strong>
                                 </p>
-                                <p class="has-text-centered">
-                                    <a class="button is-success">
+                                <p class="has-text-centered" *ngIf="!isAdmin">
+                                    <a class="button is-success" *ngIf="item.author_uid !== currentUid" (click)="bid(item.product_id)">
                                         <span class="icon">
                                                         <i class="fa fa-gavel" aria-hidden="true"></i>
                                                     </span>
                                         <span>Bid</span>
+                                    </a>
+                                </p>
+                                <p class="has-text-centered" *ngIf="isAdmin">
+                                    <a class="button" [ngClass]="{'is-success': item.status === 'approved', 'is-danger': item.status === 'pending'}" (click)="bid(item.product_id)">
+                                        <span class="icon">
+                                                        <i class="fa" [ngClass]="{'fa-check': item.status === 'approved', 'fa-exclamation': item.status === 'pending'}" aria-hidden="true"></i>
+                                                    </span>
+                                        <span [innerHTML]="item.status === 'pending' ? 'Approve' : 'Approved'"></span>
                                     </a>
                                 </p>
                             </div>
@@ -61,7 +111,7 @@
                             <div class="media">
                                 <div class="media-content" (click)="showProduct(item)">
                                     <p class="title is-5" [innerHTML]="item?.name"></p>
-                                    <p class="subtitle is-6" [innerHTML]="'Category: '+item?.category"></p>
+                                    <p class="subtitle is-6" [innerHTML]="'Category: '+(item?.category).toUpperCase()"></p>
                                 </div>
                             </div>
                             <div class="content">

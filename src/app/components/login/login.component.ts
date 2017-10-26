@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.commonService.setLoader(false);
     
     }).catch(err => {
+      this.router.navigate(['welcome/login']);
       this.showError(err);
     });
   }
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit {
         console.log(data);
         this.router.navigate(['home']);
       }).catch(err => {
+        this.router.navigate(['welcome/login']);
         this.showError(err);
       });
     } else {
@@ -53,8 +55,10 @@ export class LoginComponent implements OnInit {
     this.commonService.setLoader(true);
     if (email && password) {
       this.auth.signup(email, password).then(data => {
+        this.router.navigate(['home']);
         console.log(data);
       }).catch(err => {
+        this.router.navigate(['welcome/login']);
         this.showError(err);
       });
     } else {

@@ -14,7 +14,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
   currentProductId;
   dataSubscription;
   productData = {};
-  currentUid;
+  user;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -24,24 +24,24 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
     private auth: AuthService,
     private location: Location) {
     }
-    
+
     ngOnInit() {
       this.authService.currentUser$.subscribe(data => {
         if (data) {
-          this.currentUid = data['uid'];
+          this.user = data;
         }
       });
     if (this.router.url.indexOf('edit_product') > -1) {
       this.editMode = true;
       this.currentProductId = this.route.snapshot.params.id;
-      this.currentUid = this.auth.currentUser.uid;
+      this.auth.currentUser$.subscribe(data => {
+        if (data) {
+          this.user = data;
+        }
+      });
       this.dataSubscription = this.fService.getDocuments(this.currentProductId).subscribe(data => {
         if (data && data.length) {
           this.productData = data[0];
-          if (this.currentUid !== this.productData['author_uid']) {
-            this.dataSubscription.unsubscribe();
-            this.router.navigate(['home/category/all']);
-          }
           const inputs = document.querySelectorAll('input');
           const descField = document.querySelector('textarea');
           const category = document.querySelector('select');
@@ -63,27 +63,31 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         postObj = {
           'name': name,
           'desc': desc,
-          'base_price': base_val,
-          'increment': increment,
+          'base_price': Number(base_val),
+          'increment': Number(increment),
           'category': category.toLowerCase(),
         };
       } else {
         postObj = {
           'name': name,
           'desc': desc,
-          'base_price': base_val,
-          'increment': increment,
+          'base_price': Number(base_val),
+          'increment': Number(increment),
           'photo': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_LdVq9LAFZLNXpiyqXWnLoxQ_SKyFd6qooWlVvaFzOAaJPsQTIA',
           'category': category.toLowerCase(),
           'curr_val': null,
-          'author_uid': this.currentUid,
-          'product_id': Math.random() % 7
+          'author_uid': this.user.uid,
+          'product_id': Math.random().toString(36).slice(2),
+          'bid_count': 0,
+          'author_email': this.user.email,
+          'author_name': this.user.displayName,
+          'status': 'pending'
         };
       }
       console.log(category.toLowerCase(), postObj);
       this.commonService.setLoader(true);
       if (this.editMode) {
-        this.fService.updateDocument(this.currentProductId, postObj, true);
+        this.fService.updateDocument(this.currentProductId, 'edit', postObj);
       } else {
         this.fService.addDocument(postObj).then(res => {
           console.log(res);
